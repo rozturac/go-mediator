@@ -1,2 +1,1 @@
-# go-mediator
-Go Mediator Module
+# 🚀 MediatR
