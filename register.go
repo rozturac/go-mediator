@@ -26,7 +26,9 @@ func newRegister() Register {
 
 func (r register) RegisterEvent(event Event, handlers ...EventHandler) error {
 	t := reflect.TypeOf(event)
-	if t.Elem().Kind() != reflect.Struct {
+	if t.Kind() == reflect.Struct {
+		return fmt.Errorf("event must be pointer")
+	} else if t.Elem().Kind() != reflect.Struct {
 		return fmt.Errorf("event type must be struct")
 	}
 
@@ -46,8 +48,10 @@ func (r register) GetEventHandler(event Event) ([]EventHandler, bool) {
 
 func (r register) RegisterCommand(command Command, handler CommandHandler) error {
 	t := reflect.TypeOf(command)
-	if t.Elem().Kind() != reflect.Struct {
-		return fmt.Errorf("event type must be struct")
+	if t.Kind() == reflect.Struct {
+		return fmt.Errorf("command must be pointer")
+	} else if t.Elem().Kind() != reflect.Struct {
+		return fmt.Errorf("command type must be struct")
 	}
 
 	if _, ok := r.registeredCommands[t.Name()]; ok {
