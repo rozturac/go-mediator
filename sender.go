@@ -2,7 +2,6 @@ package mediator
 
 import (
 	"context"
-	"errors"
 	"fmt"
 )
 
@@ -22,11 +21,11 @@ type sender struct {
 func newSender(register Register, behavior Behavior) Sender {
 
 	if register == nil {
-		panic(errors.New("register value cannot be nil"))
+		panic(fmt.Errorf("register value cannot be nil"))
 	}
 
 	if behavior == nil {
-		panic(errors.New("behavior value cannot be nil"))
+		panic(fmt.Errorf("behavior value cannot be nil"))
 	}
 
 	return &sender{
@@ -39,7 +38,7 @@ func (s *sender) Send(ctx context.Context, command Command) (result interface{},
 	if fn, ok := s.register.GetCommandHandler(command); ok {
 		result, err = s.behavior.use(ctx, command, fn, 0)
 	} else {
-		err = fmt.Errorf("")
+		err = fmt.Errorf("not found handler registered by %v", command)
 	}
 	return
 }

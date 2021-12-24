@@ -2,7 +2,6 @@ package mediator
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"testing"
 )
@@ -74,7 +73,7 @@ func TestRegister_GetEventHandler(t *testing.T) {
 		name string
 	}
 	event := &TestEvent{name: "TestEvent"}
-	expectedError := errors.New("test error")
+	expectedError := fmt.Errorf("test error")
 	expectedHandler := func(ctx context.Context, event Event) error {
 		return expectedError
 	}

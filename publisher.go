@@ -2,7 +2,7 @@ package mediator
 
 import (
 	"context"
-	"errors"
+	"fmt"
 )
 
 type Event interface{}
@@ -20,7 +20,7 @@ type publisher struct {
 func newPublisher(register Register) Publisher {
 
 	if register == nil {
-		panic(errors.New("register value cannot be nil"))
+		panic(fmt.Errorf("register value cannot be nil"))
 	}
 
 	return &publisher{
@@ -38,7 +38,7 @@ func (p *publisher) Publish(ctx context.Context, event Event) error {
 		return nil
 	}
 
-	return errors.New("event handler not found")
+	return fmt.Errorf("event handler not found")
 }
 
 func (p *publisher) PublishAsync(ctx context.Context, event Event) Async {
@@ -56,7 +56,7 @@ func (p *publisher) PublishAsync(ctx context.Context, event Event) Async {
 				}
 			}
 		} else {
-			err = errors.New("event handler not found")
+			err = fmt.Errorf("event handler not found")
 		}
 	}()
 

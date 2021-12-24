@@ -1,7 +1,6 @@
 package mediator
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 )
@@ -28,7 +27,7 @@ func newRegister() Register {
 func (r register) RegisterEvent(event Event, handlers ...EventHandler) error {
 	t := reflect.TypeOf(event)
 	if t.Elem().Kind() != reflect.Struct {
-		return errors.New("event type must be struct")
+		return fmt.Errorf("event type must be struct")
 	}
 
 	for _, handler := range handlers {
@@ -48,7 +47,7 @@ func (r register) GetEventHandler(event Event) ([]EventHandler, bool) {
 func (r register) RegisterCommand(command Command, handler CommandHandler) error {
 	t := reflect.TypeOf(command)
 	if t.Elem().Kind() != reflect.Struct {
-		return errors.New("event type must be struct")
+		return fmt.Errorf("event type must be struct")
 	}
 
 	if _, ok := r.registeredCommands[t.Name()]; ok {

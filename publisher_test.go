@@ -2,7 +2,7 @@ package mediator
 
 import (
 	"context"
-	"errors"
+	"fmt"
 	"testing"
 )
 
@@ -14,7 +14,7 @@ func TestPublisher_newSender(t *testing.T) {
 }
 
 func TestPublisher_newSenderWithoutRegister(t *testing.T) {
-	expectedError := errors.New("register value cannot be nil")
+	expectedError := fmt.Errorf("register value cannot be nil")
 	defer func() {
 		if r := recover(); r != nil {
 			if err, ok := r.(error); ok {
