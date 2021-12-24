@@ -2,7 +2,6 @@ package mediator
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/google/uuid"
 	"testing"
@@ -16,7 +15,7 @@ func TestSender_newSender(t *testing.T) {
 }
 
 func TestSender_newSenderWithoutRegister(t *testing.T) {
-	expectedError := errors.New("register value cannot be nil")
+	expectedError := fmt.Errorf("register value cannot be nil")
 	defer func() {
 		if r := recover(); r != nil {
 			if err, ok := r.(error); ok {
@@ -33,7 +32,7 @@ func TestSender_newSenderWithoutRegister(t *testing.T) {
 }
 
 func TestSender_newSenderWithoutBehavior(t *testing.T) {
-	expectedError := errors.New("behavior value cannot be nil")
+	expectedError := fmt.Errorf("behavior value cannot be nil")
 	defer func() {
 		if r := recover(); r != nil {
 			if err, ok := r.(error); ok {
