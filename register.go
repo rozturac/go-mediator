@@ -33,14 +33,14 @@ func (r register) RegisterEvent(event Event, handlers ...EventHandler) error {
 	}
 
 	for _, handler := range handlers {
-		r.registeredEvents[t.Name()] = append(r.registeredEvents[t.Name()], handler)
+		r.registeredEvents[t.String()] = append(r.registeredEvents[t.String()], handler)
 	}
 	return nil
 }
 
 func (r register) GetEventHandler(event Event) ([]EventHandler, bool) {
 	t := reflect.TypeOf(event)
-	if fns, ok := r.registeredEvents[t.Name()]; ok {
+	if fns, ok := r.registeredEvents[t.String()]; ok {
 		return fns, true
 	}
 	return nil, false
@@ -54,17 +54,17 @@ func (r register) RegisterCommand(command Command, handler CommandHandler) error
 		return fmt.Errorf("command type must be struct")
 	}
 
-	if _, ok := r.registeredCommands[t.Name()]; ok {
+	if _, ok := r.registeredCommands[t.String()]; ok {
 		return fmt.Errorf("%s has been already added", t.Name())
 	} else {
-		r.registeredCommands[t.Name()] = handler
+		r.registeredCommands[t.String()] = handler
 	}
 	return nil
 }
 
 func (r register) GetCommandHandler(command Command) (CommandHandler, bool) {
 	t := reflect.TypeOf(command)
-	if fns, ok := r.registeredCommands[t.Name()]; ok {
+	if fns, ok := r.registeredCommands[t.String()]; ok {
 		return fns, true
 	}
 	return nil, false
